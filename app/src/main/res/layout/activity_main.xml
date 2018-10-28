@@ -15,11 +15,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="151dp"
-        android:layout_marginLeft="151dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="148dp"
-        android:layout_marginRight="148dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginLeft="145dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="154dp"
+        android:layout_marginRight="154dp"
         android:text="SIGN IN"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -33,13 +33,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginStart="150dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="371dp"
         android:layout_marginEnd="146dp"
         android:layout_marginRight="146dp"
-        android:layout_marginBottom="180dp"
         android:text="Login" />
 
     <Button
@@ -67,11 +65,11 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="98dp"
-        android:layout_marginLeft="98dp"
-        android:layout_marginTop="254dp"
-        android:layout_marginEnd="71dp"
-        android:layout_marginRight="71dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginLeft="96dp"
+        android:layout_marginTop="221dp"
+        android:layout_marginEnd="73dp"
+        android:layout_marginRight="73dp"
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textPersonName" />
@@ -96,11 +94,18 @@
 
     <ImageView
         android:id="@+id/emblem_imageView"
-        android:layout_width="314dp"
-        android:layout_height="138dp"
+        android:layout_width="219dp"
+        android:layout_height="115dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="82dp"
+        android:layout_marginLeft="82dp"
         android:layout_marginTop="31dp"
-        app:srcCompat="@drawable/emblem" />
+        android:layout_marginEnd="83dp"
+        android:layout_marginRight="83dp"
+        android:background="@drawable/emblem" />
 
 </RelativeLayout>

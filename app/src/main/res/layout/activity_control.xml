@@ -44,6 +44,6 @@
         android:layout_marginEnd="127dp"
         android:layout_marginRight="127dp"
         android:layout_marginBottom="51dp"
-        app:srcCompat="@drawable/mute_button" />
+        android:background="@drawable/mute_button" />
 
 </RelativeLayout>
