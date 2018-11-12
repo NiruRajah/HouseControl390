@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "383736735068",
+    "firebase_url": "https://housecontrol390.firebaseio.com",
+    "project_id": "housecontrol390",
+    "storage_bucket": "housecontrol390.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383736735068:android:1b48b61778b066ed",
+        "android_client_info": {
+          "package_name": "com.example.avkash.housecontrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383736735068-59stln6u2stlt3534m4f0jdalj8b8ij4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.avkash.housecontrol",
+            "certificate_hash": "b484419313ce7ebdd69b69239e26055f789e85f7"
+          }
+        },
+        {
+          "client_id": "383736735068-4llop9agb0innr2of86cdp8rj0j9ekcn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByn_AvrGEijA2lYC08FELG-Cxd-HFN-cg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383736735068-4llop9agb0innr2of86cdp8rj0j9ekcn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
