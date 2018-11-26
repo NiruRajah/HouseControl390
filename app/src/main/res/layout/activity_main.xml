@@ -86,6 +86,6 @@
         android:layout_marginStart="82dp"
         android:layout_marginLeft="82dp"
         android:layout_marginTop="31dp"
-        android:background="@drawable/emblem" />
+        android:background="@drawable/main_activity_emblem" />
 
 </RelativeLayout>

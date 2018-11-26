@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity
 
 
     private ProgressDialog progressDialog;
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity
     {
         String email = email_editText.getText().toString().trim();
         String password = password_editText.getText().toString().trim();
-
         if(TextUtils.isEmpty(email))
         {
             //email is empty

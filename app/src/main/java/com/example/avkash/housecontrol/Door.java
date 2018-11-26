@@ -4,7 +4,8 @@ public class Door
 {
     String id;
     String name;
-    boolean toggle;
+    boolean alert;
+    String doorStatus;
     String humidity;
     String temperatureC;
     String temperatureF;
@@ -14,7 +15,8 @@ public class Door
     {
         id = null;
         name = null;
-        toggle = false;
+        alert = false;
+        doorStatus = null;
         humidity = null;
         temperatureC = null;
         temperatureF = null;
@@ -22,11 +24,12 @@ public class Door
     }
 
 
-    public Door(String idx, String nam, boolean state, String hum, String tempC, String tempF)
+    public Door(String idx, String nam, boolean togg, String state, String hum, String tempC, String tempF)
     {
         id = idx;
         name = nam;
-        toggle = state;
+        alert = togg;
+        doorStatus = state;
         humidity = hum;
         temperatureC = tempC;
         temperatureF = tempF;
@@ -40,14 +43,23 @@ public class Door
         this.name = nam;
     }
 
-    public boolean getToggle()
+    public String getDoorStatus()
     {
-        return toggle;
+        return doorStatus;
     }
 
-    public void setToggle(boolean tog)
+    public void setDoorStatus(String doorStatus) {
+        this.doorStatus = doorStatus;
+    }
+
+    public boolean getToggle()
     {
-        this.toggle = tog;
+        return alert;
+    }
+
+    public void setToggle(boolean toggle)
+    {
+        this.alert = toggle;
     }
 
     public String getId()

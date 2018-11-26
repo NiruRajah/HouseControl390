@@ -8,39 +8,13 @@
     android:focusableInTouchMode="true"
     tools:context=".controlActivity">
 
-    <ImageView
-        android:id="@+id/unlock_button"
-        android:layout_width="56dp"
-        android:layout_height="49dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="109dp"
-        android:background="@drawable/unlock_button" />
-
-    <ImageView
-        android:id="@+id/light_bulb_button"
-        android:layout_width="61dp"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="103dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        android:background="@drawable/light_bulb_button" />
-
     <Button
         android:id="@+id/logOutButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewUserEmail"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="148dp"
-        android:layout_marginLeft="148dp"
+        android:layout_alignStart="@+id/temperatureText"
+        android:layout_marginStart="27dp"
         android:layout_marginTop="18dp"
         android:text="Log Out" />
 
@@ -48,56 +22,81 @@
         android:id="@+id/textViewUserEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
-
-    <Switch
-        android:id="@+id/toggleSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/unlock_button"
-        android:layout_alignEnd="@+id/light_bulb_button"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="-6dp"
-        android:checked="true"
-        android:text="Closed/Open" />
-
-    <EditText
-        android:id="@+id/optionText"
-        android:layout_width="154dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/toggleSwitch"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginStart="3dp"
-        android:layout_marginLeft="3dp"
-        android:layout_marginEnd="64dp"
-        android:layout_toStartOf="@+id/light_bulb_button"
-        android:ems="10"
-        android:hint="Door Name"
-        android:inputType="textPersonName"
-        android:maxLength="15" />
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/optionText"
-        android:layout_alignStart="@+id/optionText"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="33dp"
-        android:text="Save Door" />
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="115dp"
+        android:layout_marginTop="13dp" />
 
     <ListView
         android:id="@+id/listViewDoors"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_below="@+id/saveButton"
+        android:layout_height="202dp"
+        android:layout_below="@+id/temperatureText"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="65dp"
-        android:layout_marginBottom="0dp" />
+        android:layout_marginTop="34dp"
+        android:layout_marginBottom="-1dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="26dp"
+        android:layout_marginRight="26dp"
+        android:layout_marginBottom="21dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_add"
+        tools:srcCompat="@android:drawable/ic_input_add" />
+
+    <TextView
+        android:id="@+id/humidityText"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/alertSwitch"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="106dp"
+        android:layout_marginLeft="106dp"
+        android:layout_marginTop="11dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/temperatureText"
+        android:layout_width="174dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/humidityText"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="106dp"
+        android:layout_marginLeft="106dp"
+        android:layout_marginTop="29dp"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <Switch
+        android:id="@+id/alertSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logOutButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="105dp"
+        android:layout_marginLeft="105dp"
+        android:layout_marginTop="9dp"
+        android:text="Motion Alert: Off/On" />
+
+    <Button
+        android:id="@+id/message_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/logOutButton"
+        android:layout_alignParentEnd="true"
+        android:text="Message"
+        android:visibility="gone" />
 
 </RelativeLayout>

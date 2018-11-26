@@ -37,25 +37,25 @@ public class DoorList extends ArrayAdapter<Door>
         TextView textViewStatus = (TextView) listViewItem.findViewById(R.id.textViewStatus);
 
         Door door = doorList.get(position);
-        String status = String.valueOf(door.getToggle());
+        String status = null;
+        boolean alert = door.getToggle();
         String humid = door.getHumidity();
         String tempC = door.getTemperatureC();
         String tempF = door.getTemperatureF();
+        String alertStatus = null;
 
-
-        if (status == "true")
+        if (!alert)
         {
-            status = "Door: Open\nHumidity: "+ humid + "\nTemperature in Celsius: " + tempC + "\nTemperature in Farenheits: "
-            + tempF;
+            alertStatus = "Off";
         }
         else
-            {
-            status = "Door: Closed\nHumidity: " + humid + "\nTemperature in Celsius: " + tempC + "\nTemperature in Farenheits: "
-                    + tempF;
-            }
+        {
+            alertStatus = "On";
+        }
 
+        status = "Alert: " + alertStatus;
 
-        textViewName.setText(door.getName());
+        textViewName.setText(door.getName() + ": " + door.getDoorStatus());
         textViewStatus.setText(status);
 
         return listViewItem;
