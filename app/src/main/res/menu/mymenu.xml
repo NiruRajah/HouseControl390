@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/celsius"
+        android:title="Celsius"></item>
+
+    <item
+        android:id="@+id/fahrenheit"
+        android:title="Fahrenheit"></item>
+
+    <item
+        android:id="@+id/textAlertOn"
+        android:title="Turn On Text Alert"></item>
+
+    <item
+        android:id="@+id/textAlertOff"
+        android:title="Turn Off Text Alert"></item>
+
+
+</menu>
