@@ -17,5 +17,8 @@
         android:id="@+id/textAlertOff"
         android:title="Turn Off Text Alert"></item>
 
+    <item
+        android:id="@+id/updatePhoneNo"
+        android:title="Update Phone Number"></item>
 
 </menu>

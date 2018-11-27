@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -47,7 +48,7 @@ import java.util.List;
 
 public class controlActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private TextView textViewUserEmail;
     private Button logOutButton;
     private FloatingActionButton floatingAddButton;
@@ -75,6 +76,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     private boolean fireMessage = false;
     private boolean textMsgAlert = false;
     private boolean MsgCounter = false;
+    private String phoneNo = null;
     //boolean door1Alert = false;
     //boolean door2Alert = false;
     //boolean door3Alert = false;
@@ -135,7 +137,8 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
                 return false;
             }
         });
-
+            doorList = getDoorListFromDatabase();
+        textMsgAlert = false;
     }
 
     @Override
@@ -154,7 +157,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-
+                phoneUpdate();
                 checkMotion();
                 temperatureUpdate();
                 doorAlert();
@@ -189,16 +192,74 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    private void phoneUpdate()
+    {
+        user = firebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference phoneReference = FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("Phone Number");
+        phoneReference.addValueEventListener(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                phoneNo = dataSnapshot.getValue(String.class);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+
+            }
+        });
+    }
+
+    private void checkForSmsPermission() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS) !=
+                PackageManager.PERMISSION_GRANTED) {
+
+            // Permission not yet granted. Use requestPermissions().
+            // MY_PERMISSIONS_REQUEST_SEND_SMS is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    MY_PERMISSIONS_REQUEST_SEND_SMS);
+        } else {
+            // Permission already granted. Enable the SMS button.
+
+        }
+    }
+
+
     private void sendMsg(String message)
     {
 
-        if (textMsgAlert) {
-            SmsManager sms = SmsManager.getDefault();
-            TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            //String phoneNo = "15148030253";
-            String phoneNo = sms.toString().trim();
-            //phoneNo = tManager.getLine1Number();
-            sms.sendTextMessage(phoneNo, null, message, null, null);
+
+
+        if (textMsgAlert)
+        {
+            //smsManager.sendTextMessage(phoneNo, null, message, null, null);
+           /* Uri smsUri = Uri.parse(phoneNo);
+            Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
+            intent.putExtra("sms_body", message);
+            intent.setType("vnd.android-dir/mms-sms");
+            startActivity(intent);*/
+            if(phoneNo != null)
+            {
+                checkForSmsPermission();
+                SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage(phoneNo, null, message, null, null);
+            }
+            else
+            {
+                Toast.makeText(this, "Please add a phone number to receive text alerts", Toast.LENGTH_LONG).show();
+            }
+
+        }
+        else
+        {
+
         }
     }
 
@@ -385,12 +446,17 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         //doorList = getDoorListFromDatabase();
         size = doorList.size();
 
+        boolean s1 = false;
+        boolean s2 = false;
+        boolean s3 = false;
+
         for (int i = 0; i < size; i++)
         {
             if((door1Alert) && i ==0 && (doorList.get(i).getToggle()))
             {
                 door1Alert = false;
                 //Toast.makeText(this, "SECURITY ALERT!!! " + doorList.get(0).getName() + " just changed position to " + doorStatus1, Toast.LENGTH_SHORT).show();
+               //s1 = true;
                 pushNotification("SECURITY ALERT",doorList.get(0).getName() + " just changed position to " + doorStatus1);
                 sendMsg("HOME CONTROL:\nSECURITY ALERT!!! " + doorList.get(0).getName() + " just changed position to " + doorStatus1);
             }
@@ -815,6 +881,14 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(this, "Text Message Alert Turned Off", Toast.LENGTH_SHORT).show();
                 break;
             }
+
+            case R.id.updatePhoneNo:
+            {
+                UpdatePhoneNoFragment dialogS = new UpdatePhoneNoFragment();
+                dialogS.show(getSupportFragmentManager(), "Update Phone Number");
+                break;
+            }
+
         }
         return true;
     }
