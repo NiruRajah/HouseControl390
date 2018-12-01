@@ -29,7 +29,8 @@ import java.util.List;
 
 import static java.lang.Integer.parseInt;
 
-public class AddDoorFragment extends DialogFragment { //Insert Assignment Dialog class
+public class AddDoorFragment extends DialogFragment //add door fragment class
+{
     private static final String TAG = "InsertDoorDialog";
 
     private FirebaseAuth firebaseAuth;
@@ -96,7 +97,7 @@ public class AddDoorFragment extends DialogFragment { //Insert Assignment Dialog
         return view;
     }
 
-    public boolean addDoor(String namex, boolean togg)
+    public boolean addDoor(String namex, boolean togg) //add door
     {
         String name = namex;
         boolean switchState = togg;
@@ -132,7 +133,7 @@ public class AddDoorFragment extends DialogFragment { //Insert Assignment Dialog
     }
 
 
-    public List<Door> getDoorListFromDatabase()
+    public List<Door> getDoorListFromDatabase() //get door list from the database
     {
 
         databaseDoorsX.addValueEventListener(new ValueEventListener()
@@ -158,7 +159,7 @@ public class AddDoorFragment extends DialogFragment { //Insert Assignment Dialog
         return doorListX;
     }
 
-    public void setSensorInfo()
+    public void setSensorInfo() //get sensor relation info from database and update the variables declared in this class
     {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();

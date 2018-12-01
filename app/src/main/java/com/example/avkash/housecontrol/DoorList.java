@@ -11,14 +11,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoorList extends ArrayAdapter<Door>
+public class DoorList extends ArrayAdapter<Door> //door list adapter class
 {
     private Activity context;
     private List<Door> doorList;
 
 
 
-    public DoorList (Activity context, List<Door> doorList)
+    public DoorList (Activity context, List<Door> doorList) //constructor
     {
         super(context, R.layout.list_layout, doorList);
         this.context = context;
@@ -28,7 +28,7 @@ public class DoorList extends ArrayAdapter<Door>
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(int position, View convertView, ViewGroup parent) //get view function which shows what to reveal on the list view
     {
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.list_layout, null, true);
@@ -60,6 +60,4 @@ public class DoorList extends ArrayAdapter<Door>
 
         return listViewItem;
     }
-
-
 }

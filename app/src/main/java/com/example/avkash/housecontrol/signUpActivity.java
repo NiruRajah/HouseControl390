@@ -21,7 +21,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class signUpActivity extends AppCompatActivity implements View.OnClickListener
+public class signUpActivity extends AppCompatActivity implements View.OnClickListener //sign up activity page
 {
 protected Button submit_button;
 protected EditText first_name_editText;
@@ -34,7 +34,7 @@ private FirebaseAuth firebaseAuth;
 
 private DatabaseReference databaseReference;
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState) //onCreate function
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
@@ -46,18 +46,8 @@ private DatabaseReference databaseReference;
             finish();
             sendMessageToControl();
         }
-
-
-
-
         submit_button = (Button) findViewById(R.id.submit_button);
-
-
-
-
         progressDialog = new ProgressDialog(this);
-
-
 
         first_name_editText = (EditText) findViewById(R.id.first_name_editText);
         last_name_editText = (EditText) findViewById(R.id.last_name_editText);
@@ -65,20 +55,14 @@ private DatabaseReference databaseReference;
         password_EditText2 = (EditText) findViewById(R.id.password_EditText2);
 
         submit_button.setOnClickListener(this);
-
-
-
     }
 
-    private void saveUserInformation()
+    private void saveUserInformation() //save user information first and last name
     {
-
         String fname = first_name_editText.getText().toString().trim();
         String lname = last_name_editText.getText().toString().trim();
         String tempName = fname.concat(" ");
         String name = tempName.concat(lname);
-
-        //UserInformation userInformation = new UserInformation(fname,lname);
 
         FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
 
@@ -98,7 +82,7 @@ private DatabaseReference databaseReference;
 
     }
 
-    private void registerUser()
+    private void registerUser() //register user function which checks for correct user inputs to register user
     {
         String email = email_editText2.getText().toString().trim();
         String password = password_EditText2.getText().toString().trim();
@@ -145,7 +129,7 @@ private DatabaseReference databaseReference;
 
     }
 
-    private void sendMessageToControl()
+    private void sendMessageToControl() //go to control activity page
     {
 
         Intent intent = new Intent(this, controlActivity.class);
@@ -153,7 +137,8 @@ private DatabaseReference databaseReference;
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View view) //onclick to regiseter user
+    {
         registerUser();
 
     }

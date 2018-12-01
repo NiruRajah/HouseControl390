@@ -46,7 +46,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class controlActivity extends AppCompatActivity implements View.OnClickListener {
+public class controlActivity extends AppCompatActivity implements View.OnClickListener //control activity class
+{
 
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private TextView textViewUserEmail;
@@ -77,13 +78,11 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     private boolean textMsgAlert = false;
     private boolean MsgCounter = false;
     private String phoneNo = null;
-    //boolean door1Alert = false;
-    //boolean door2Alert = false;
-    //boolean door3Alert = false;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) //onCreate function
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -92,7 +91,8 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         firebaseAuth = FirebaseAuth.getInstance();
 
 
-        if (firebaseAuth.getCurrentUser() == null) {
+        if (firebaseAuth.getCurrentUser() == null) //if no one logged in, go to main activity
+        {
             finish();
             sendMessageToMainActivity();
         }
@@ -142,10 +142,11 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    protected void onStart() {
+    protected void onStart() //on start function
+    {
         super.onStart();
         user = firebaseAuth.getInstance().getCurrentUser();
-
+        // update sensor and door list info from database
         setSensorInfo();
         updateAllDoors();
         DatabaseReference databaseDoors = FirebaseDatabase.getInstance().getReference("doors").child(user.getUid());
@@ -156,7 +157,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                //constantly update all necessary information as soon as a value changes in the database
                 phoneUpdate();
                 checkMotion();
                 temperatureUpdate();
@@ -170,7 +171,8 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
-        databaseDoors.addValueEventListener(new ValueEventListener() {
+        databaseDoors.addValueEventListener(new ValueEventListener() //for door list view
+        {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -192,7 +194,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    private void phoneUpdate()
+    private void phoneUpdate() //get phone number from database
     {
         user = firebaseAuth.getInstance().getCurrentUser();
         DatabaseReference phoneReference = FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("Phone Number");
@@ -213,39 +215,28 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    private void checkForSmsPermission() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.SEND_SMS) !=
-                PackageManager.PERMISSION_GRANTED) {
-
-            // Permission not yet granted. Use requestPermissions().
-            // MY_PERMISSIONS_REQUEST_SEND_SMS is an
-            // app-defined int constant. The callback method gets the
-            // result of the request.
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.SEND_SMS},
-                    MY_PERMISSIONS_REQUEST_SEND_SMS);
-        } else {
-            // Permission already granted. Enable the SMS button.
-
+    private void checkForSmsPermission() //check for SMS permission
+    {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
         }
+        else
+            {
+           //do nothing
+
+            }
     }
 
 
-    private void sendMsg(String message)
+    private void sendMsg(String message) //send SMS function
     {
 
 
 
         if (textMsgAlert)
         {
-            //smsManager.sendTextMessage(phoneNo, null, message, null, null);
-           /* Uri smsUri = Uri.parse(phoneNo);
-            Intent intent = new Intent(Intent.ACTION_VIEW, smsUri);
-            intent.putExtra("sms_body", message);
-            intent.setType("vnd.android-dir/mms-sms");
-            startActivity(intent);*/
-            if(phoneNo != null)
+            if(phoneNo != null) //assuming phone number isnt null
             {
                 checkForSmsPermission();
                 SmsManager smsManager = SmsManager.getDefault();
@@ -259,17 +250,14 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         }
         else
         {
-
+            //do nothing
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void pushNotification(String subject, String body)
+    private void pushNotification(String subject, String body) //push notification function
     {
         String title="Home Control";
-        //String subject="Alert";
-        //String body="Door Open";
-
         Intent intent = new Intent(this, controlActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
@@ -281,21 +269,11 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
                 setContentTitle(subject).setSmallIcon(R.drawable.main_activity_emblem).setContentIntent(pendingIntent).setVibrate(new long[]{400, 400, 400}).build();
         notify.flags |= Notification.FLAG_AUTO_CANCEL;
         notif.notify(0, notify);
-
-
-        //NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        //notificationBuilder.setContentTitle("FCM NOTIFICATION");
-        //notificationBuilder.setContentText(remoteMessage.getNotification().getBody());
-        //notificationBuilder.setAutoCancel(true);
-        //notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        //notificationBuilder.setContentIntent(pendingIntent);
-        //NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //notificationManager.notify(0,notificationBuilder.build());
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void temperatureUpdate()
+    private void temperatureUpdate() //update all temperature info on screen and detect and send incase of hazard alerts
     {
         doorList = getDoorListFromDatabase();
         if (tempType)
@@ -348,7 +326,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private void checkMotion()
+    private void checkMotion() //check for motion
     {
         DatabaseReference motionReference = FirebaseDatabase.getInstance().getReference().child("PIRMotion");
         motionReference.addValueEventListener(new ValueEventListener()
@@ -371,7 +349,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    private void setMotionDetection(float motion)
+    private void setMotionDetection(float motion) //set motionDection boolean
     {
         if (motion == 1)
         {
@@ -384,22 +362,19 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void motionDetector()
+    public void motionDetector() //send alert messages if motion detected
     {
         boolean alert = alertSwitch.isChecked();
         if ((alert) && (motionDetection))
         {
-            //Toast.makeText(this, "SECURITY ALERT!!! MOTION DETECTED!!!", Toast.LENGTH_LONG).show();
             sendMsg("HOME CONTROL:\nSECURITY ALERT!!! MOTION DETECTED!!!");
             pushNotification("SECURITY ALERT","MOTION DETECTED!!!");
-
             alertSwitch.setChecked(false);
-
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void doorAlert()
+    private void doorAlert() //check for door alert
     {
         String door1 = null;
         String door2 = null;
@@ -446,41 +421,31 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         //doorList = getDoorListFromDatabase();
         size = doorList.size();
 
-        boolean s1 = false;
-        boolean s2 = false;
-        boolean s3 = false;
-
         for (int i = 0; i < size; i++)
         {
             if((door1Alert) && i ==0 && (doorList.get(i).getToggle()))
             {
                 door1Alert = false;
-                //Toast.makeText(this, "SECURITY ALERT!!! " + doorList.get(0).getName() + " just changed position to " + doorStatus1, Toast.LENGTH_SHORT).show();
-               //s1 = true;
                 pushNotification("SECURITY ALERT",doorList.get(0).getName() + " just changed position to " + doorStatus1);
                 sendMsg("HOME CONTROL:\nSECURITY ALERT!!! " + doorList.get(0).getName() + " just changed position to " + doorStatus1);
             }
             if((door2Alert) && i==1 && (doorList.get(i).getToggle()))
             {
                 door2Alert = false;
-                //Toast.makeText(this, "SECURITY ALERT!!! " + doorList.get(1).getName() + " just changed position to " + doorStatus2, Toast.LENGTH_SHORT).show();
                 pushNotification("SECURITY ALERT",doorList.get(1).getName() + " just changed position to " + doorStatus2);
                 sendMsg("HOME CONTROL:\nSECURITY ALERT!!! " + doorList.get(1).getName() + " just changed position to " + doorStatus2);
             }
             if((door3Alert) && i==2 && (doorList.get(i).getToggle()))
             {
                 door3Alert = false;
-                //Toast.makeText(this, "SECURITY ALERT!!! " + doorList.get(2).getName() + " just changed position to " + doorStatus3, Toast.LENGTH_SHORT).show();
                 pushNotification("SECURITY ALERT",doorList.get(2).getName() + " just changed position to " + doorStatus3);
                 sendMsg("HOME CONTROL:\nSECURITY ALERT!!! " + doorList.get(2).getName() + " just changed position to " + doorStatus3);
             }
         }
-
-
     }
 
 
-    private void showUpdateDialog(final String doorID, final String doorName, final int position)
+    private void showUpdateDialog(final String doorID, final String doorName, final int position) //show update dialog
     {
         final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -500,7 +465,6 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
 
         updateButton.setOnClickListener(new View.OnClickListener()
         {
-
             @Override
             public void onClick(View view)
             {
@@ -513,7 +477,6 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 updateDoor(doorID, name, position, togg);
                 alertDialog.dismiss();
-
             }
         });
 
@@ -524,8 +487,6 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view)
             {
                 alertDialog.dismiss();
-
-
             }
         });
 
@@ -535,16 +496,14 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View view)
             {
-
                 deleteDoor(doorID, position);
                 doorList = getDoorListFromDatabase();
                 alertDialog.dismiss();
-
             }
         });
     }
 
-    private boolean updateDoor(String id, String name, int position, boolean togg)
+    private boolean updateDoor(String id, String name, int position, boolean togg) //update door into the database
     {
         DatabaseReference databaseDoorsX = FirebaseDatabase.getInstance().getReference("doors").child(user.getUid());
         setSensorInfo();
@@ -575,7 +534,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private boolean updateAllDoors()
+    private boolean updateAllDoors() //update all doors into the database
     {
         //user = firebaseAuth.getInstance().getCurrentUser();
         doorList = getDoorListFromDatabase();
@@ -617,7 +576,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         return true;
     }
 
-    private List<Door> getDoorListFromDatabase()
+    private List<Door> getDoorListFromDatabase() //get all the doors from the database and update doorList array
     {
         user = firebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseGetDoorList = FirebaseDatabase.getInstance().getReference("doors").child(user.getUid());
@@ -632,7 +591,6 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
                 {
                     Door door = (Door) doorSnapshot.getValue(Door.class);
                     doorList.add(door);
-
                 }
             }
 
@@ -645,7 +603,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         return doorList;
     }
 
-    private void setSensorInfo()
+    private void setSensorInfo() //get all sensor info from the database and update the variables in this class
     {
 
         DatabaseReference databaseReferenceHumidity = FirebaseDatabase.getInstance().getReference().child("Humidity");
@@ -668,7 +626,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         databaseReferenceTempC.addValueEventListener(new ValueEventListener()
         {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
+            public void onDataChange(DataSnapshot dataSnapshot) //if data change detected in database update the variable accordingly for alerts
             {
                 temperatureCX = dataSnapshot.getValue(Float.class).toString();
                 float temperature = dataSnapshot.getValue(Float.class);
@@ -792,7 +750,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private boolean deleteDoor(String id, int position)
+    private boolean deleteDoor(String id, int position) //delete door function
     {
         user = firebaseAuth.getInstance().getCurrentUser();
         DatabaseReference databaseDoorDelete = FirebaseDatabase.getInstance().getReference("doors").child(user.getUid()).child(id);
@@ -815,7 +773,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onClick(View view)
+    public void onClick(View view) //onclick function
     {
         if (view == logOutButton)
         {
@@ -829,7 +787,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-    private void sendMessageToMainActivity()
+    private void sendMessageToMainActivity() //go to next activity when logged off
     {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -838,7 +796,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
 
 
     @Override
-    public boolean onCreateOptionsMenu (Menu menu)
+    public boolean onCreateOptionsMenu (Menu menu) //3 dot toggle menu
     {
         getMenuInflater().inflate(R.menu.mymenu, menu);
         return true;
@@ -846,7 +804,7 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public boolean onOptionsItemSelected(MenuItem item) //show toggle menu options
     {
         int id = item.getItemId();
         switch (id)
@@ -892,8 +850,4 @@ public class controlActivity extends AppCompatActivity implements View.OnClickLi
         }
         return true;
     }
-
-
-
-
 }

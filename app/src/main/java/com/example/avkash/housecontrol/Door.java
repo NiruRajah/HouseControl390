@@ -1,6 +1,6 @@
 package com.example.avkash.housecontrol;
 
-public class Door
+public class Door //door class
 {
     String id;
     String name;
@@ -11,7 +11,7 @@ public class Door
     String temperatureF;
 
 
-    public Door()
+    public Door() //door contructor
     {
         id = null;
         name = null;
@@ -24,7 +24,7 @@ public class Door
     }
 
 
-    public Door(String idx, String nam, boolean togg, String state, String hum, String tempC, String tempF)
+    public Door(String idx, String nam, boolean togg, String state, String hum, String tempC, String tempF) //door construction assigning variables
     {
         id = idx;
         name = nam;
@@ -35,6 +35,7 @@ public class Door
         temperatureF = tempF;
     }
 
+    //below are settings and getters
     public String getName() {
         return name;
     }

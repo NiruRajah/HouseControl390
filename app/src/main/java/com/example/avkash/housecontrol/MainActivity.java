@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity //the main page (login page)
 {
     protected Button login_button = null;
     protected Button sign_up_button = null;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth firebaseAuth = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState) //onCreate function
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser() != null)
+        if(firebaseAuth.getCurrentUser() != null) //if user already logged in (go to control activity page)
         {
             finish();
             sendMessageToControl();
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    protected void setupUI() //setupUI function for opening grades page. NOT USED however. Here for additional future functionilities
+    protected void setupUI() //setupUI function for opening next page
     {
 
         login_button = (Button) findViewById(R.id.login_button);
@@ -72,19 +72,19 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void sendMessageToSignUp()
+    private void sendMessageToSignUp() //to go to sign up page
     {
         Intent intent = new Intent(this, signUpActivity.class);
         startActivity(intent);
     }
 
-    private void sendMessageToControl()
+    private void sendMessageToControl() //to go to control activity page
     {
         Intent intent = new Intent(this, controlActivity.class);
         startActivity(intent);
     }
 
-    private void userLogin ()
+    private void userLogin() //function checking for correct user input to log in
     {
         String email = email_editText.getText().toString().trim();
         String password = password_editText.getText().toString().trim();
@@ -129,17 +129,16 @@ public class MainActivity extends AppCompatActivity
                 });
     }
 
-    private View.OnClickListener onClicklogin_button = new View.OnClickListener()
+    private View.OnClickListener onClicklogin_button = new View.OnClickListener() //onclick listener for login
     {
         @Override
         public void onClick(View view)
         {
             userLogin();
-            //sendMessageToControl();
         }
     };
 
-    private View.OnClickListener onClicksign_up_button = new View.OnClickListener()
+    private View.OnClickListener onClicksign_up_button = new View.OnClickListener() //onclick listenr for sign up
     {
         @Override
         public void onClick(View view)

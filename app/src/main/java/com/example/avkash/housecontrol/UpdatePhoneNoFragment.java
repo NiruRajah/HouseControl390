@@ -25,7 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class UpdatePhoneNoFragment extends DialogFragment {
+public class UpdatePhoneNoFragment extends DialogFragment //update phone fragment class
+{
     private static final String TAG = "UpdatePhoneNumber";
 
     private FirebaseAuth firebaseAuth;
@@ -65,7 +66,7 @@ public class UpdatePhoneNoFragment extends DialogFragment {
             public void onClick(View view) {
                 String phoneNo = phoneText.getText().toString().trim();
 
-                if(!((phoneNo.length() < 11)))//assuming not blank
+                if(!((phoneNo.length() < 11)))//assuming not blank and not below 11 digits
                 {
                     FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
                     Toast.makeText(getActivity(), "Phone Number Saved Successfully", Toast.LENGTH_LONG).show();
@@ -84,7 +85,7 @@ return view;
     }
 
 
-    public void phoneUpdate()
+    public void phoneUpdate() //update phone function
     {
         user = firebaseAuth.getInstance().getCurrentUser();
         DatabaseReference phoneReference = FirebaseDatabase.getInstance().getReference().child(user.getUid()).child("Phone Number");
